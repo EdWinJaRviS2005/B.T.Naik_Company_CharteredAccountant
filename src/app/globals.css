@@ -16,6 +16,7 @@
   --color-border-gray: #DCE0E5;
   --color-accent-warning: #9C4221;
   --color-accent-success: #1F6E43;
+  --color-neon-pastel: #39FF94;
 
   /* Custom Easing for Ledger Feel */
   --ease-ledger: cubic-bezier(0.4, 0, 0.2, 1);
