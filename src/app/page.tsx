@@ -37,7 +37,7 @@ export default function Home() {
           </div>
 
           {/* 3. Hero heading reveals line-by-line with staggered upward slide */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-semibold text-white tracking-tight mb-8">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-semibold tracking-tight mb-8" style={{ color: '#39FF94' }}>
             <span className="block line-reveal line-reveal-1">Trustworthy Counsel.</span>
             <span className="block line-reveal line-reveal-2 mt-2">Precise Audit.</span>
           </h1>
