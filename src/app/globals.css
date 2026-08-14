@@ -1,26 +1,204 @@
 @import "tailwindcss";
 
+@theme {
+  /* Font Family Definitions mapped to CSS variables set by Next.js google fonts */
+  --font-sans: var(--font-sans), sans-serif;
+  --font-serif: var(--font-serif), serif;
+  --font-mono: var(--font-mono), monospace;
+
+  /* Theme Color Definitions */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F7F8FA;
+  --color-navy-primary: #0B2545;
+  --color-navy-ink: #13294B;
+  --color-text-body: #2E3338;
+  --color-text-muted: #6E7580;
+  --color-border-gray: #DCE0E5;
+  --color-accent-warning: #9C4221;
+  --color-accent-success: #1F6E43;
+
+  /* Custom Easing for Ledger Feel */
+  --ease-ledger: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #FFFFFF;
+  --foreground: #2E3338;
+  --ease-ledger: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--color-navy-ink);
+  font-weight: 600;
+}
+
+/* Numeric class to easily ensure mono font with tabular numerals */
+.num-ledger {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Button Stamp Press Easing (scale-down to 0.97 on active click) */
+.btn-press {
+  transition: transform 0.12s var(--ease-ledger), background-color 0.2s var(--ease-ledger);
+}
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* Pen Stroke Underline Animation for Links */
+.link-draw {
+  position: relative;
+}
+.link-draw::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.2s var(--ease-ledger);
+}
+.link-draw:hover::after {
+  width: 100%;
+}
+
+/* Border animation for Service Cards */
+.card-ledger {
+  position: relative;
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-border-gray);
+  border-radius: 3px;
+  transition: background-color 0.2s var(--ease-ledger), border-color 0.2s var(--ease-ledger);
+}
+.card-ledger::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0px;
+  background-color: var(--color-navy-primary);
+  transition: width 0.2s var(--ease-ledger);
+}
+.card-ledger:hover {
+  background-color: var(--color-bg-secondary);
+}
+.card-ledger:hover::before {
+  width: 3px;
+}
+
+/* Circular Stamp / Seal Motif classes */
+.stamp-seal {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px dashed var(--color-navy-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--color-navy-primary);
+  transform: rotate(-10deg);
+  user-select: none;
+}
+
+/* Page load animations (homepage only, triggered by class) */
+.draw-line {
+  width: 0%;
+  height: 1px;
+  background-color: var(--color-navy-primary);
+  animation: drawLineAnim 0.15s var(--ease-ledger) forwards;
+}
+
+/* Logo/firm name fade up (200ms, slightly delayed) */
+.fade-up-logo {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeUpAnim 0.2s var(--ease-ledger) 0.15s forwards;
+}
+
+/* Hero heading reveal line-by-line staggered upward slide */
+.line-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.line-reveal-1 {
+  animation: lineRevealAnim 0.25s var(--ease-ledger) 0.35s forwards;
+}
+.line-reveal-2 {
+  animation: lineRevealAnim 0.25s var(--ease-ledger) 0.39s forwards;
+}
+.line-reveal-3 {
+  animation: lineRevealAnim 0.25s var(--ease-ledger) 0.43s forwards;
+}
+
+/* Supporting content fades in last */
+.fade-in-last {
+  opacity: 0;
+  animation: fadeInAnim 0.25s var(--ease-ledger) 0.65s forwards;
+}
+
+@keyframes drawLineAnim {
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes fadeUpAnim {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lineRevealAnim {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInAnim {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Route transition wrapper classes */
+.route-transition {
+  animation: routeFade 0.2s var(--ease-ledger) forwards;
+}
+
+@keyframes routeFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Checkmark draw animation on file completion */
+@keyframes strokeDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-stroke {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: strokeDraw 0.4s var(--ease-ledger) forwards;
 }

@@ -54,7 +54,6 @@ export default function DashboardPage() {
     const file = e.target.files?.[0];
     if (!file || !user) return;
 
-    // Validate size (e.g. max 10MB)
     if (file.size > 10 * 1024 * 1024) {
       setUploadError("File size exceeds 10MB limit.");
       return;
@@ -64,7 +63,6 @@ export default function DashboardPage() {
     setUploadError('');
 
     try {
-      // 1. Upload to Supabase Storage (public bucket)
       const filePath = `clients/${user.uid}/${Date.now()}_${file.name}`;
       const { data, error: uploadError } = await supabase.storage
         .from('client-documents')
@@ -72,14 +70,12 @@ export default function DashboardPage() {
 
       if (uploadError) throw uploadError;
 
-      // 2. Get Public URL
       const { data: { publicUrl } } = supabase.storage
         .from('client-documents')
         .getPublicUrl(filePath);
 
       const downloadUrl = publicUrl;
 
-      // 3. Save metadata to Firestore
       await addDoc(collection(db, 'documents'), {
         userId: user.uid,
         userEmail: user.email || user.phoneNumber || 'Unknown',
@@ -89,10 +85,7 @@ export default function DashboardPage() {
         createdAt: serverTimestamp(),
       });
 
-      // Refresh list
       await fetchDocuments();
-      
-      // Reset input
       e.target.value = '';
     } catch (error: any) {
       console.error("Upload error:", error);
@@ -111,15 +104,15 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Client Dashboard</h1>
-          <p className="text-slate-600 mt-1">Welcome back, {user?.email || user?.phoneNumber}</p>
+          <h1 className="text-3xl font-serif font-semibold text-navy-ink">Client Dashboard</h1>
+          <p className="text-xs text-text-muted mt-1">Welcome back, <span className="num-ledger">{user?.email || user?.phoneNumber}</span></p>
         </div>
         <button
           onClick={signOut}
-          className="inline-flex items-center px-4 py-2 border border-slate-300 rounded-md shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none transition-colors"
+          className="inline-flex items-center px-4 py-2 border border-border-gray rounded-[3px] text-xs font-semibold text-text-body bg-white hover:bg-bg-secondary focus:outline-none transition-colors btn-press"
         >
           <FaSignOutAlt className="mr-2" /> Sign Out
         </button>
@@ -129,22 +122,22 @@ export default function DashboardPage() {
         
         {/* Upload Section */}
         <div className="lg:col-span-1">
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-            <h2 className="text-xl font-semibold mb-4 text-slate-800">Upload Document</h2>
-            <p className="text-sm text-slate-600 mb-6">
+          <div className="bg-white p-6 rounded-[3px] border border-border-gray">
+            <h2 className="text-lg font-serif font-semibold text-navy-ink mb-4">Upload Document</h2>
+            <p className="text-xs text-text-muted mb-6 leading-relaxed">
               Upload invoices, Form 16, or bank statements securely. Files are retained for 6 months.
             </p>
             
             {uploadError && (
-              <div className="mb-4 text-sm text-red-600 bg-red-50 p-3 rounded border border-red-100">
+              <div className="mb-4 text-xs text-accent-warning bg-white p-3 rounded-[3px] border border-accent-warning">
                 {uploadError}
               </div>
             )}
 
-            <div className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center hover:bg-slate-50 transition-colors">
-              <FaUpload className="mx-auto text-3xl text-slate-400 mb-3" />
+            <div className="border-2 border-dashed border-border-gray rounded-[3px] p-8 text-center hover:bg-bg-secondary transition-colors">
+              <FaUpload className="mx-auto text-2xl text-text-muted mb-3" />
               <label htmlFor="file-upload" className="cursor-pointer">
-                <span className="mt-2 block text-sm font-medium text-blue-600 hover:text-blue-500">
+                <span className="block text-xs font-semibold text-navy-primary hover:text-navy-ink link-draw">
                   Select a file
                 </span>
                 <input
@@ -156,12 +149,12 @@ export default function DashboardPage() {
                   disabled={uploading}
                 />
               </label>
-              <p className="mt-1 text-xs text-slate-500">PDF, XLSX, DOCX up to 10MB</p>
+              <p className="mt-1 text-[10px] text-text-muted uppercase tracking-wider">PDF, XLSX, DOCX up to 10MB</p>
             </div>
             
             {uploading && (
-              <div className="mt-4 flex items-center justify-center text-sm text-blue-600">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
+              <div className="mt-4 flex items-center justify-center text-xs text-navy-primary">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-navy-primary mr-2"></div>
                 Uploading...
               </div>
             )}
@@ -170,30 +163,30 @@ export default function DashboardPage() {
 
         {/* Documents List */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
-              <h2 className="text-xl font-semibold text-slate-800">Your Documents</h2>
+          <div className="bg-white rounded-[3px] border border-border-gray overflow-hidden">
+            <div className="px-6 py-4 border-b border-border-gray bg-bg-secondary">
+              <h2 className="text-lg font-serif font-semibold text-navy-ink">Your Documents</h2>
             </div>
             
             <div className="p-0">
               {loadingDocs ? (
-                <div className="p-8 text-center text-slate-500">Loading documents...</div>
+                <div className="p-8 text-center text-xs text-text-muted">Loading documents...</div>
               ) : documents.length === 0 ? (
-                <div className="p-12 text-center flex flex-col items-center">
-                  <FaFileAlt className="text-4xl text-slate-300 mb-4" />
-                  <p className="text-slate-500">No documents uploaded yet.</p>
+                <div className="p-16 text-center flex flex-col items-center">
+                  <FaFileAlt className="text-3xl text-border-gray mb-4" />
+                  <p className="text-xs text-text-muted">No documents uploaded yet.</p>
                 </div>
               ) : (
-                <ul className="divide-y divide-slate-200">
+                <ul className="divide-y divide-border-gray">
                   {documents.map((doc) => (
-                    <li key={doc.id} className="p-6 hover:bg-slate-50 transition-colors flex items-center justify-between">
+                    <li key={doc.id} className="p-5 hover:bg-bg-secondary transition-colors flex items-center justify-between">
                       <div className="flex items-start">
-                        <FaFileAlt className="text-slate-400 mt-1 mr-4 text-xl" />
+                        <FaFileAlt className="text-text-muted mt-0.5 mr-4 text-lg" />
                         <div>
-                          <p className="text-sm font-medium text-slate-900">{doc.filename}</p>
-                          <div className="mt-1 text-xs text-slate-500 flex gap-4">
-                            <span>{doc.createdAt ? new Date(doc.createdAt.toDate()).toLocaleDateString() : 'Just now'}</span>
-                            <span>{formatSize(doc.size)}</span>
+                          <p className="text-xs font-semibold text-navy-ink">{doc.filename}</p>
+                          <div className="mt-1 text-[10px] text-text-muted flex gap-4 uppercase tracking-wider">
+                            <span className="num-ledger">{doc.createdAt ? new Date(doc.createdAt.toDate()).toLocaleDateString() : 'Just now'}</span>
+                            <span className="num-ledger">{formatSize(doc.size)}</span>
                           </div>
                         </div>
                       </div>
@@ -201,7 +194,7 @@ export default function DashboardPage() {
                         href={doc.url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-colors"
+                        className="p-2 text-navy-primary hover:text-navy-ink hover:bg-bg-secondary rounded-[3px] transition-colors btn-press"
                         title="Download"
                       >
                         <FaDownload />

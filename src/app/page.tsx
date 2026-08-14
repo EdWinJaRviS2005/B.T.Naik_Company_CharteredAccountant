@@ -1,8 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { services } from '@/data/services';
 import { FaFileInvoiceDollar, FaBuilding, FaBalanceScale, FaGlobe } from 'react-icons/fa';
 import { FaCalculator, FaFileSignature, FaChartLine, FaUsers } from 'react-icons/fa6';
 import { ElementType } from 'react';
+import ScrollReveal from '@/components/ScrollReveal';
 
 // Icon mapping helper
 const getIconForService = (slug: string): ElementType => {
@@ -21,21 +24,40 @@ const getIconForService = (slug: string): ElementType => {
 
 export default function Home() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col route-transition">
+      {/* 1. Header line draws left-to-right (150ms) */}
+      <div className="draw-line w-full" />
+
       {/* Hero Section */}
-      <section className="bg-slate-800 text-white py-20 lg:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
+      <section className="bg-navy-primary text-white py-24 lg:py-36 border-b border-navy-ink relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          {/* 2. Logo/firm name fades up (200ms, slightly delayed) */}
+          <div className="fade-up-logo text-xs uppercase tracking-widest font-semibold text-slate-300 mb-4">
             B.T. Naik & Company
+          </div>
+
+          {/* 3. Hero heading reveals line-by-line with staggered upward slide */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-semibold text-white tracking-tight mb-8">
+            <span className="block line-reveal line-reveal-1">Trustworthy Counsel.</span>
+            <span className="block line-reveal line-reveal-2 mt-2">Precise Audit.</span>
           </h1>
-          <p className="text-xl sm:text-2xl text-slate-300 max-w-3xl mx-auto mb-10 font-light">
-            Professional Chartered Accountancy firm providing comprehensive audit, taxation, and advisory services.
+
+          <p className="line-reveal line-reveal-3 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto mb-12 leading-relaxed">
+            Professional Chartered Accountancy firm providing comprehensive compliance, auditing, taxation, and statutory advisory services.
           </p>
-          <div className="flex justify-center space-x-4">
-            <Link href="/services/auditing-and-assurance" className="bg-white text-slate-900 px-8 py-3 rounded-md font-semibold hover:bg-slate-100 transition-colors">
+
+          {/* 4. Supporting content fades in last */}
+          <div className="fade-in-last flex justify-center space-x-4">
+            <Link 
+              href="/services/auditing-and-assurance" 
+              className="bg-white text-navy-primary px-6 py-3 rounded-[3px] text-sm font-semibold hover:bg-slate-100 transition-colors btn-press border border-white"
+            >
               Our Services
             </Link>
-            <Link href="/contact" className="border border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-slate-900 transition-colors">
+            <Link 
+              href="/contact" 
+              className="border border-white/30 text-white px-6 py-3 rounded-[3px] text-sm font-semibold hover:bg-white/10 transition-colors btn-press"
+            >
               Contact Us
             </Link>
           </div>
@@ -43,33 +65,44 @@ export default function Home() {
       </section>
 
       {/* Introduction Section */}
-      <section className="py-16 bg-white">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-slate-800 mb-6">Firm Overview</h2>
-          <p className="text-lg text-slate-600 max-w-4xl mx-auto leading-relaxed">
-            Established with a commitment to professional excellence, B.T. Naik & Company assists organizations and individuals in navigating complex statutory requirements. Our core focus areas include auditing and assurance, direct and indirect taxation, corporate compliance, and advisory services.
-          </p>
+          <ScrollReveal>
+            <h2 className="text-3xl font-serif text-navy-ink mb-6">Firm Overview</h2>
+            <p className="text-base text-text-body max-w-3xl mx-auto leading-relaxed">
+              Established with a commitment to professional excellence, B.T. Naik & Company assists organizations and individuals in navigating complex statutory requirements. Our core focus areas include auditing and assurance, direct and indirect taxation, corporate compliance, and advisory services.
+            </p>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-16 bg-slate-50 border-t border-slate-200">
+      <section className="py-20 bg-bg-secondary border-t border-border-gray">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-slate-800 mb-12 text-center">Areas of Practice</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service) => {
+          <ScrollReveal className="text-center mb-16">
+            <h2 className="text-3xl font-serif text-navy-ink">Areas of Practice</h2>
+            <p className="text-text-muted mt-2 text-sm">Professional expertise tailored to regulatory environments</p>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.map((service, index) => {
               const Icon = getIconForService(service.slug);
               return (
-                <div key={service.slug} className="bg-white p-6 rounded-lg shadow-sm border border-slate-200 hover:shadow-md transition-shadow flex flex-col">
-                  <div className="text-slate-700 mb-4 bg-slate-100 w-12 h-12 rounded-full flex items-center justify-center">
-                    <Icon className="text-xl" />
+                <ScrollReveal key={service.slug} delay={index * 60}>
+                  <div className="card-ledger p-6 h-full flex flex-col">
+                    <div className="text-navy-primary mb-5 w-10 h-10 border border-border-gray rounded-[3px] flex items-center justify-center bg-white">
+                      <Icon className="text-lg" />
+                    </div>
+                    <h3 className="text-lg font-serif text-navy-ink mb-3">{service.title}</h3>
+                    <p className="text-text-body text-xs leading-relaxed mb-6 flex-grow">{service.shortDescription}</p>
+                    <Link 
+                      href={`/services/${service.slug}`} 
+                      className="text-xs font-semibold text-navy-primary hover:text-navy-ink flex items-center mt-auto link-draw self-start"
+                    >
+                      Read more <svg className="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                    </Link>
                   </div>
-                  <h3 className="text-xl font-semibold text-slate-800 mb-2">{service.title}</h3>
-                  <p className="text-slate-600 text-sm mb-4 flex-grow">{service.shortDescription}</p>
-                  <Link href={`/services/${service.slug}`} className="text-sm font-semibold text-slate-800 hover:text-blue-600 flex items-center">
-                    Read more <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                  </Link>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>
