@@ -43,7 +43,7 @@ export default function RateChartsPage() {
             <ScrollReveal key={chart.id} delay={index * 60}>
               <div className="bg-white rounded-[3px] border border-border-gray overflow-hidden">
                 <div className="bg-navy-primary px-6 py-4 flex flex-col sm:flex-row justify-between items-center border-b border-navy-ink">
-                  <h2 className="text-lg font-serif font-semibold text-[#39FF94]">{chart.title}</h2>
+                  <h2 className="text-lg font-serif font-semibold text-neon-pastel">{chart.title}</h2>
                   <span className="text-xs text-slate-300 mt-2 sm:mt-0 font-medium">
                     Last Updated: <span className="num-ledger">{chart.lastUpdated}</span>
                   </span>

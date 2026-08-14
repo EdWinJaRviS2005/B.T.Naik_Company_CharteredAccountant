@@ -104,7 +104,7 @@ export default function AdminDashboard() {
         <div className="bg-white rounded-[3px] border border-border-gray overflow-hidden">
           <div className="px-6 py-4 border-b border-border-gray bg-bg-secondary flex justify-between items-center">
             <h2 className="text-lg font-serif font-semibold text-navy-ink">All Client Documents</h2>
-            <span className="bg-navy-primary text-[#39FF94] text-[10px] font-semibold px-2.5 py-1 rounded-[3px] num-ledger">
+            <span className="bg-navy-primary text-neon-pastel text-[10px] font-semibold px-2.5 py-1 rounded-[3px] num-ledger">
               {documents.length} Total
             </span>
           </div>

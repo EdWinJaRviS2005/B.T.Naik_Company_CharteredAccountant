@@ -1,5 +1,6 @@
 import { team } from '@/data/team';
 import { Metadata } from 'next';
+import ScrollReveal from '@/components/ScrollReveal';
 
 export const metadata: Metadata = {
   title: 'About Us | B.T. Naik & Company',
@@ -8,52 +9,56 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="bg-slate-50 min-h-screen py-16">
+    <div className="bg-bg-secondary min-h-screen py-16 route-transition">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Firm Overview */}
-        <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-12">
-          <div className="bg-slate-800 px-6 py-8 sm:px-10">
-            <h1 className="text-3xl font-bold text-white">About the Firm</h1>
-          </div>
-          <div className="px-6 py-8 sm:px-10 prose prose-slate max-w-none">
-            <p className="text-lg text-slate-700 leading-relaxed mb-4">
-              B.T. Naik & Company is a professional services firm comprised of Chartered Accountants, established to provide independent and objective assurance, taxation, and advisory services.
-            </p>
-            <p className="text-lg text-slate-700 leading-relaxed">
-              Our practice is built on a foundation of professional ethics and regulatory compliance. We aim to deliver structured solutions to organizations and individuals, ensuring adherence to statutory frameworks such as the Companies Act, Income Tax Act, and the Goods and Services Tax (GST) Act.
-            </p>
-          </div>
-        </div>
-
-        {/* Team Section */}
-        <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-          <div className="bg-slate-100 px-6 py-6 border-b border-slate-200">
-            <h2 className="text-2xl font-bold text-slate-800">Our Team</h2>
-          </div>
-          <div className="px-6 py-8 sm:px-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {team.map((member) => (
-                <div key={member.id} className="border border-slate-200 rounded-md p-6 bg-slate-50">
-                  <div className="w-16 h-16 bg-slate-300 rounded-full mb-4 flex items-center justify-center text-slate-600 font-bold text-xl">
-                    {member.name.charAt(0)}
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-1">{member.name}</h3>
-                  <p className="text-sm font-semibold text-blue-700 mb-3">{member.qualification}</p>
-                  
-                  <div className="space-y-2 text-sm text-slate-600">
-                    <p>
-                      <span className="font-semibold text-slate-800">Experience:</span> {member.experienceYears} Years
-                    </p>
-                    <p>
-                      <span className="font-semibold text-slate-800">Specialization:</span> {member.specialization}
-                    </p>
-                  </div>
-                </div>
-              ))}
+        <ScrollReveal>
+          <div className="bg-white rounded-[3px] border border-border-gray overflow-hidden mb-12">
+            <div className="bg-navy-primary px-8 py-10 sm:px-12 border-b border-navy-ink">
+              <h1 className="text-3xl font-serif font-semibold text-neon-pastel">About the Firm</h1>
+            </div>
+            <div className="px-8 py-10 sm:px-12 text-text-body leading-relaxed text-sm space-y-4">
+              <p className="text-base text-text-body font-light leading-relaxed">
+                B.T. Naik & Company is a professional services firm comprised of Chartered Accountants, established to provide independent and objective assurance, taxation, and advisory services.
+              </p>
+              <p className="text-base text-text-body font-light leading-relaxed">
+                Our practice is built on a foundation of professional ethics and regulatory compliance. We aim to deliver structured solutions to organizations and individuals, ensuring adherence to statutory frameworks such as the Companies Act, Income Tax Act, and the Goods and Services Tax (GST) Act.
+              </p>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
+
+        {/* Team Section */}
+        <ScrollReveal delay={80}>
+          <div className="bg-white rounded-[3px] border border-border-gray overflow-hidden">
+            <div className="bg-bg-secondary px-8 py-6 border-b border-border-gray">
+              <h2 className="text-xl font-serif font-semibold text-navy-ink">Our Team</h2>
+            </div>
+            <div className="px-8 py-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {team.map((member) => (
+                  <div key={member.id} className="card-ledger p-6 flex flex-col">
+                    <div className="w-12 h-12 bg-navy-primary rounded-[3px] mb-4 flex items-center justify-center text-neon-pastel font-serif font-bold text-lg border border-navy-ink">
+                      {member.name.charAt(0)}
+                    </div>
+                    <h3 className="text-lg font-serif font-semibold text-navy-ink mb-1">{member.name}</h3>
+                    <p className="text-xs font-semibold text-navy-primary mb-4 uppercase tracking-wider">{member.qualification}</p>
+                    
+                    <div className="space-y-2 text-xs text-text-muted mt-auto pt-4 border-t border-border-gray">
+                      <p>
+                        <span className="font-semibold text-navy-ink">Experience:</span> <span className="num-ledger">{member.experienceYears} Years</span>
+                      </p>
+                      <p>
+                        <span className="font-semibold text-navy-ink">Specialization:</span> {member.specialization}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
 
       </div>
     </div>

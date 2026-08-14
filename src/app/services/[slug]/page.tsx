@@ -40,7 +40,7 @@ export default async function ServicePage({ params }: Props) {
           <div className="bg-white rounded-[3px] border border-border-gray overflow-hidden">
             {/* Header */}
             <div className="bg-navy-primary px-8 py-10 sm:px-12 border-b border-navy-ink">
-              <h1 className="text-3xl font-serif font-semibold text-[#39FF94]">{service.title}</h1>
+              <h1 className="text-3xl font-serif font-semibold text-neon-pastel">{service.title}</h1>
             </div>
             
             {/* Content */}

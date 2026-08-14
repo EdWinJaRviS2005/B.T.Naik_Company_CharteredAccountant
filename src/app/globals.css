@@ -34,11 +34,16 @@ body {
   font-family: var(--font-sans);
 }
 
-/* Typography Overrides */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  color: var(--color-navy-ink);
-  font-weight: 600;
+/* Typography Overrides using base layer so text color utilities work correctly */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+  }
+}
+
+.text-neon-pastel {
+  color: #39FF94 !important;
 }
 
 /* Numeric class to easily ensure mono font with tabular numerals */
