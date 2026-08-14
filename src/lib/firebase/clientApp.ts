@@ -1,7 +1,7 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
+import { getAuth, Auth } from "firebase/auth";
+import { getFirestore, Firestore } from "firebase/firestore";
+import { getStorage, FirebaseStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,11 +12,24 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase only if it hasn't been initialized yet
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+let app: FirebaseApp | null = null;
+let auth: Auth;
+let db: Firestore;
+let storage: FirebaseStorage;
 
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
+const isFirebaseConfigured = !!firebaseConfig.apiKey;
 
-export { app, auth, db, storage };
+if (isFirebaseConfigured) {
+  app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+  auth = getAuth(app);
+  db = getFirestore(app);
+  storage = getStorage(app);
+} else {
+  // Cast to non-null types to satisfy TypeScript compile checks during build
+  // when credentials are not yet populated in .env.local
+  auth = null as unknown as Auth;
+  db = null as unknown as Firestore;
+  storage = null as unknown as FirebaseStorage;
+}
+
+export { app, auth, db, storage, isFirebaseConfigured };

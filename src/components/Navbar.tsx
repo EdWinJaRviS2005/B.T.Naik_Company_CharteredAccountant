@@ -33,6 +33,12 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
+            <Link href="/resources" className="text-gray-600 hover:text-slate-900 px-3 py-2 text-sm font-medium transition-colors">
+              Resources
+            </Link>
+            <Link href="/rate-charts" className="text-gray-600 hover:text-slate-900 px-3 py-2 text-sm font-medium transition-colors">
+              Rate Charts
+            </Link>
             <Link href="/faq" className="text-gray-600 hover:text-slate-900 px-3 py-2 text-sm font-medium transition-colors">
               FAQ
             </Link>
