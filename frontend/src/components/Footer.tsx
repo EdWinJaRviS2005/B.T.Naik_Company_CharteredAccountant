@@ -25,7 +25,7 @@ export default function Footer() {
               <li><Link href="/resources" className="link-draw hover:text-white transition-colors">Resources</Link></li>
               <li><Link href="/rate-charts" className="link-draw hover:text-white transition-colors">Rate Charts</Link></li>
               <li><Link href="/faq" className="link-draw hover:text-white transition-colors">FAQs</Link></li>
-              <li><Link href="/portal" className="link-draw hover:text-white transition-colors">Client Portal</Link></li>
+              <li><Link href="/portal/login" className="link-draw hover:text-white transition-colors">Client Portal</Link></li>
             </ul>
           </div>
           
